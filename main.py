@@ -14,8 +14,15 @@ if __name__ == "__main__":
     print("******** MONKEY CARD GAME ********")
     print("**********************************\n")
 
-    p1 = player.Player("Kai")
-    p2 = player.Player("Wea")
+    num_player = int(input("How many players?: "))
+    players_input = []
+    if num_player <= 1:
+        print("Players must be 2 or higher.")
+    else:
+        for x in range(num_player):
+            player_name = input("Enter player name: ")
+            players_input.append(player.Player(player_name))
+
     players_list = player.Player.players_list
 
     print()
@@ -35,14 +42,8 @@ if __name__ == "__main__":
     time.sleep(1)
     print()
 
-    print(f"Distributing cards to: {players_list}")
-    gm.distribute_cards(p1)
-    gm.distribute_cards(p2)
-
-    if len(gm.deck) != 0:
-        random_player = random.choice([p1, p2])
-        random_player.player_deck.append(gm.deck[0])
-        gm.deck.pop(0)
-
-    print(len(p1.player_deck))
-    print(len(p2.player_deck))
+    for p in players_input:
+        print(f"Distributing to {p.player_name}: ")
+        gm.distribute_cards(p)
+        print(f"Deck: {p.player_deck}")
+        print(f"Length of deck: {len(p.player_deck)}")
