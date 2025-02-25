@@ -23,8 +23,6 @@ if __name__ == "__main__":
             player_name = input("Enter player name: ")
             players_input.append(player.Player(player_name))
 
-    players_list = player.Player.players_list
-
     print()
     print("Let us play!")
     print("Shuffling cards...")
@@ -34,12 +32,11 @@ if __name__ == "__main__":
 
     print(f"Length of deck: {gm.length_of_deck()}")
     print()
-    time.sleep(1)
 
     print("Hiding a card....")
-    print(gm.hide_card())
+    hidden_card = gm.hide_card()
+    print(hidden_card)
     print(f"Length of deck: {gm.length_of_deck()}")
-    time.sleep(1)
     print()
 
     for p in players_input:
@@ -47,3 +44,26 @@ if __name__ == "__main__":
         gm.distribute_cards(p)
         print(f"Deck: {p.player_deck}")
         print(f"Length of deck: {len(p.player_deck)}")
+
+    num_of_players = len(players_input)
+    cards_per_player = 51 / num_of_players
+    remainder = 51 % num_of_players
+
+    print(f"Remaining num of cards: {remainder}")
+    for x in range(remainder):
+        random_player = random.choice(players_input)
+        print(f"x: {x}, card: {gm.deck[x]}")
+        random_player.player_deck.append(gm.deck[x])
+
+    for p in players_input:
+        print(f"\nDistributing to {p.player_name}: ")
+        print(f"Length of deck: {len(p.player_deck)}\n")
+        print(f"Deck:\n {p.player_deck}")
+
+        print("\nCleaning pairs...")
+        print("Remaining cards: ")
+        rem_cards = p.check_initial_pairs()
+        print(rem_cards)
+        print(f"Length of deck: {len(rem_cards)}")
+
+    print(hidden_card)
